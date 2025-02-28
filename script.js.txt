@@ -1,0 +1,75 @@
+// script.js
+
+document.addEventListener("DOMContentLoaded", function() {
+  const startQuizBtn = document.getElementById("startQuizBtn");
+  const homeSection = document.getElementById("home-section");
+  const inputSection = document.getElementById("input-section");
+  const generateQuizBtn = document.getElementById("generateQuizBtn");
+  const quizSection = document.getElementById("quiz-section");
+  const topicInput = document.getElementById("topicInput");
+  const quizContainer = document.getElementById("quizContainer");
+
+  // Tindakan untuk memaparkan halaman input topik
+  startQuizBtn.addEventListener("click", function() {
+    homeSection.style.display = "none";
+    inputSection.style.display = "block";
+  });
+
+  // Tindakan untuk jana kuiz (di sini menggunakan fungsi simulasi)
+  generateQuizBtn.addEventListener("click", function() {
+    const topic = topicInput.value.trim();
+    if (topic === "") {
+      alert("Sila masukkan topik atau kategori.");
+      return;
+    }
+
+    // Fungsi simulasi untuk menjana kuiz berdasarkan topik
+    const simulatedQuiz = generateSimulatedQuiz(topic);
+
+    // Tukar paparan ke halaman kuiz dan paparkan soalan
+    inputSection.style.display = "none";
+    quizSection.style.display = "block";
+    displayQuiz(simulatedQuiz);
+  });
+
+  // Fungsi simulasi menjana kuiz (contoh soalan)
+  function generateSimulatedQuiz(topic) {
+    return [
+      {
+        question: `Apakah elemen penting dalam topik "${topic}"?`,
+        options: ["Warna", "Tekstur", "Bentuk", "Semua di atas"],
+        answer: "Semua di atas"
+      },
+      {
+        question: `Siapakah pelukis terkenal yang dikenali dengan penggunaan warna?`,
+        options: ["Van Gogh", "Picasso", "Da Vinci", "Rembrandt"],
+        answer: "Van Gogh"
+      }
+    ];
+  }
+
+  // Fungsi untuk memaparkan kuiz di dalam div #quizContainer
+  function displayQuiz(quizData) {
+    quizContainer.innerHTML = "";
+    quizData.forEach((item, index) => {
+      const questionDiv = document.createElement("div");
+      questionDiv.className = "quiz-item";
+      questionDiv.innerHTML = `<h3>Soalan ${index + 1}</h3>
+        <p>${item.question}</p>`;
+
+      const optionsList = document.createElement("ul");
+      item.options.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+        li.style.cursor = "pointer";
+        li.addEventListener("click", function() {
+          // Auto-pemarkahan mudah: paparkan makluman berdasarkan pilihan
+          alert(option === item.answer ? "Betul!" : "Cuba lagi!");
+        });
+        optionsList.appendChild(li);
+      });
+      questionDiv.appendChild(optionsList);
+      quizContainer.appendChild(questionDiv);
+    });
+  }
+});
